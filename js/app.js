@@ -17,14 +17,16 @@ function sortear(){
     let seta = "→";
     let texto = document.getElementById("lista-sorteio");
     let res = new Map();
-    if(lista.length <= 1 || verificador == 0){
-        return false;
-    }
-    let sorteado = desarranjar(lista);
 
-    lista.forEach(function(pessoa, i) {
-        res.set(pessoa, sorteado[i]); 
-    });
+    if(lista.length <= 1 || verificador == 0)
+        return false;
+
+    embaralha(lista);
+
+    for(let i = 0; i < lista.length - 1; i++)
+        res.set(lista[i], lista[i+1]);
+
+    res.set(lista[lista.length-1], lista[0]);
     
     for(let [key, chave] of res)
         texto.innerHTML += `${key} ${seta} ${chave} <br>`;
@@ -48,20 +50,14 @@ function atualiza(){
     paragrafo.textContent = texto;
 }
 
-function desarranjar(lista) {
-    let n = lista.length;
-    let resultado = [...lista];
+function embaralha(lista) {
 
-    for (let i = 0; i < n - 1; i++) {
-        let j = i + 1 + Math.floor(Math.random() * (n - i - 1));
-        [resultado[i], resultado[j]] = [resultado[j], resultado[i]];
+    let indice = lista.length
+    
+    while(indice) {
+        const indiceAleatorio = Math.floor(Math.random() * indice--);
+        [lista[indice], lista[indiceAleatorio]] = [lista[indiceAleatorio], lista[indice]];
     }
-
-    if (resultado[n - 1] === lista[n - 1]) {
-        [resultado[n - 1], resultado[n - 2]] = [resultado[n - 2], resultado[n - 1]];
-    }
-
-    return resultado;
 }
 
 input.addEventListener('keydown', function(event) {
