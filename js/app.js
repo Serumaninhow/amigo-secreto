@@ -14,6 +14,10 @@ function adicionar(){
 }
 
 function sortear(){
+    if(lista.length < 4){
+        alert("Digite pelo menos 4 pessoas!");
+        return;
+    }
     let seta = "→";
     let texto = document.getElementById("lista-sorteio");
     let res = new Map();
